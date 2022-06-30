@@ -10,7 +10,7 @@ import pytest
 from tiatoolbox.models import IOSegmentorConfig, MultiTaskSegmentor
 from tiatoolbox.utils import env_detection as toolbox_env
 
-ON_GPU = ON_GPU = toolbox_env.has_gpu()
+ON_GPU = toolbox_env.has_gpu()
 # The value is based on 2 TitanXP each with 12GB
 BATCH_SIZE = 1 if not ON_GPU else 16
 NUM_POSTPROC_WORKERS = 2 if not toolbox_env.running_on_travis() else 8
@@ -97,7 +97,8 @@ def test_functionality_travis(remote_sample, tmp_path):
     inst_dict = joblib.load(f"{output[0][1]}.0.dat")
     layer_map = np.load(f"{output[0][1]}.1.npy")
 
-    assert len(inst_dict) > 0 and layer_map is not None, "Must have some nuclei/layers."
+    assert len(inst_dict) > 0, "Must have some nuclei."
+    assert layer_map is not None, "Must have some layers."
     assert (
         layer_map.shape == required_dims
     ), "Output layer map dimensions must be same as the expected output shape"

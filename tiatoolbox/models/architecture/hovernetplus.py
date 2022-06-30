@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+import torch.nn.functional as F  # noqa: N812
 from skimage import morphology
 
 from tiatoolbox.models.architecture.hovernet import HoVerNet
@@ -210,9 +210,9 @@ class HoVerNetPlus(HoVerNet):
         return layer_info_dict
 
     @staticmethod
-    # skipcq: PYL-W0221
+    # skipcq: PYL-W0221  # noqa: E800
     def postproc(raw_maps: List[np.ndarray]):
-        """Post processing script for image tiles.
+        """Post-processing script for image tiles.
 
         Args:
             raw_maps (list(ndarray)):
@@ -267,7 +267,7 @@ class HoVerNetPlus(HoVerNet):
                     }
 
         Examples:
-            >>> from tiatoolbox.models.architecture.hovernet_plus import HoVerNetPlus
+            >>> from tiatoolbox.models.architecture.hovernetplus import HoVerNetPlus
             >>> import torch
             >>> import numpy as np
             >>> batch = torch.from_numpy(image_patch)[None]
@@ -283,7 +283,7 @@ class HoVerNetPlus(HoVerNet):
         """
         np_map, hv_map, tp_map, ls_map = raw_maps
 
-        pred_inst = HoVerNet._proc_np_hv(np_map, hv_map, fx=0.5)
+        pred_inst = HoVerNet._proc_np_hv(np_map, hv_map, scale_factor=0.5)
         # fx=0.5 as nuclear processing is at 0.5 mpp instead of 0.25 mpp
 
         pred_layer = HoVerNetPlus._proc_ls(ls_map)
